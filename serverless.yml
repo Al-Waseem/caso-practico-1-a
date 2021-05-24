@@ -28,11 +28,12 @@ provider:
         - comprehend:BatchDetectDominantLanguage
         - comprehend:DetectDominantLanguage
       Resource: "*"
-      - Effect: Allow
-        Acction:
-          - translate:TranslateText
-          - cloudwatch:GetMetricStadistics
-          - cloudwatch:ListMetrics
+    - Effect: Allow
+      Acction:
+        - translate:TranslateText
+        - cloudwatch:GetMetricStadistics
+        - cloudwatch:ListMetrics
+      Resource: "*"
 
 functions:
   create:
@@ -60,7 +61,7 @@ functions:
           cors: true
           
   translate:
-    handler: todos/get.get
+    handler: todos/getTranslate.get
     events:
       - http:
           path: todos/{id}/{lang}

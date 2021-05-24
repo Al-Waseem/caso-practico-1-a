@@ -15,12 +15,12 @@ def detect_language_task(task):
 def translate_task(task, source, target):
     
     response = translate.translate_task (
-        Text=task,
-        SourceLanguageCode = source,
-        TargetLanguageSource = target
-        )
-        
-        return response
+    Text=task,
+    SourceLanguageCode = source,
+    TargetLanguageSource = target
+    )
+    
+    return response
 
 def get(event, context):
     table = dynamodb.Table(os.environ['DYNAMODB_TABLE'])
