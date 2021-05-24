@@ -23,6 +23,16 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+    - Effect: Allow
+      Acction:
+        - comprehend:BatchDetectDominantLanguage
+        - comprehend:DetectDominantLanguage
+      Resource: "*"
+      - Effect: Allow
+        Acction:
+          - translate:TranslateText
+          - cloudwatch:GetMetricStadistics
+          - cloudwatch:ListMetrics
 
 functions:
   create:
