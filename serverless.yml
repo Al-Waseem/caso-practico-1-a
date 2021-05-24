@@ -4,6 +4,8 @@ service: api-rest
 environment:
   SERVERLESS_ACCESS_KEY: AKOORzvvkedx6LAVdui8zOCktwZH44wRAzzvuBpyzGD8A
 
+# export SERVERLESS_ACCESS_KEY=AKOORzvvkedx6LAVdui8zOCktwZH44wRAzzvuBpyzGD8A
+
 frameworkVersion: ">=1.1.0"
 
 provider:
@@ -44,6 +46,14 @@ functions:
     events:
       - http:
           path: todos/{id}
+          method: get
+          cors: true
+          
+  translate:
+    handler: todos/get.get
+    events:
+      - http:
+          path: todos/{id}/{lang}
           method: get
           cors: true
 
