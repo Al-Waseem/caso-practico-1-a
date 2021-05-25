@@ -4,25 +4,8 @@ import json
 from todos import decimalencoder
 import boto3
 dynamodb = boto3.resource('dynamodb')
-translate = boto3.client('translate')
-comprehend = boto3.client('comprehend')
 
-def detect_language_task(task):
-    response = comprehend.detect_dominant_language(Text='string')
-    
-    return response
-    
-def translate_task(task, source, target):
-    
-    response = translate.translate_task (
-    Text=task,
-    SourceLanguageCode = source,
-    TargetLanguageSource = target
-    )
-    
-    return response
-
-def get(event, context):
+def translate(event, context):
     table = dynamodb.Table(os.environ['DYNAMODB_TABLE'])
 
     # fetch todo from the database
@@ -31,6 +14,14 @@ def get(event, context):
             'id': event['pathParameters']['id']
         }
     )
+    
+    lang = event['pathParameters']['language']
+    
+    translate = boto3.client('translate', region_name="us-east-1")
+    
+    traducido = translate.translate_text(Text=result['Item']['text'], SourceLanguageCode="auto", TargetLanguageCode=lang)
+    
+    result['Item']['text'] = traducido['TranslatedText']
 
     # create a response
     response = {
