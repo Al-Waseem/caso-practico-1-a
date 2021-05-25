@@ -15,7 +15,7 @@ def translate(event, context):
         }
     )
     
-    lang = event['pathParameters']['language']
+    lang = event['pathParameters']['lang']
     
     translate = boto3.client('translate', region_name="us-east-1")
     
