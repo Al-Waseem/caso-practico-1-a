@@ -1,5 +1,10 @@
+org: alwaseem
 app: todo-list-serverless
 service: api-rest
+environment:
+  SERVERLESS_ACCESS_KEY: AKOORzvvkedx6LAVdui8zOCktwZH44wRAzzvuBpyzGD8A
+
+# export SERVERLESS_ACCESS_KEY=AKOORzvvkedx6LAVdui8zOCktwZH44wRAzzvuBpyzGD8A
 
 frameworkVersion: ">=1.1.0"
 
@@ -18,6 +23,11 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+    - Effect: Allow
+      Action:
+        - translate:TranslateText
+        - comprehend:DetectDominantLanguage
+      Resource: "*"
 
 functions:
   create:
@@ -41,6 +51,14 @@ functions:
     events:
       - http:
           path: todos/{id}
+          method: get
+          cors: true
+          
+  translate:
+    handler: todos/getTranslate.translate
+    events:
+      - http:
+          path: todos/{id}/{lang}
           method: get
           cors: true
 
